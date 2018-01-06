@@ -1,7 +1,6 @@
 ---
 layout: page
-title: About
-tagline: Who am I?
+title: Who am I?
 permalink: /about.html
 --- 
 
@@ -11,4 +10,4 @@ After graduating I moved to Vancouver with my powder skis in one hand and downhi
 
 I now work as a Data Scientist for finn.ai, specializing in deep learning for natural language processing. We build digital assistants which banks can provide to their customers.  Think Siri or Google Assistant for your bank.
 
-In the future I would love to apply my skills in the engineering sector.  For example, building deep learning models to ingest sensor data and predict the probability of component failure in cars.  It's going to be exciting to see the ways AI is applied in the mechanical engineering indsutry over the next decade.
+In the future I would love to apply my skills in the engineering sector.  For example, building deep learning models to ingest sensor data and predict the probability of component failure in cars.  It's going to be exciting to see the ways AI is applied in the mechanical engineering industry over the next decade.
