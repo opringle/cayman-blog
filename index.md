@@ -8,4 +8,4 @@
 layout: home
 ---
 
-Welcome to my blog.
+Welcome to my blog!  My goal is to educate people of all abilities about machine learning, data visualization, deep learning and how I apply these skills in my work as a Data Scientist in natural language processing.
