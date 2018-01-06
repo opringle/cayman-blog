@@ -36,7 +36,7 @@ The topic of this post is sentence classification.  We need to find a way to rep
 
 The architecture of our deep learning model is as shown below:
 
-![blah](../images/CNN.png)
+![blah](/images/CNN.png)
 *Source: Zhang, Y., & Wallace, B. (2015). A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification.*
 
 ### Input
