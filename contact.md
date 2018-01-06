@@ -3,4 +3,4 @@ layout: page
 title: Contact
 ---
 
-Please don't hesitate to get in touch.
+You can email me at ojapringle@gmail.com

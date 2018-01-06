@@ -3,12 +3,10 @@ layout: page
 title: about
 tagline: Who am I?
 permalink: /about.html
----
+--- 
 
-Before training as a Data Scientist, I completed a Masters in Mechanical Engineering from the University of Bath in the UK.  During that time I spent a year working as a Stress Analyst for the Williams Formula One Team.
+I studied a Masters of Mechanical Engineering at Bath University, UK. During that time I had the chance to spend a year in industry working for Williams Formula One.  A helipad, two wind tunnels and over 600 talented engineers....exciting stuff!   I worked as a stress analyst, computationally analyzing components of the race car to minimize their weight, while ensuring the car made it safely to the end of the race.  My boss used to joke that if we did a perfect job the entire car would fall apart as it crossed the finish line.  In reality we prioritized driver safety and reliability.
 
-After moving to Canada in 2015, I decided to read a Masters in Data Science from the University of British Columbia.  Best decision I ever made.  I love this field! 
+After graduating I moved to Vancouver with my powder skis in one hand and downhill bike in the other. I decided to move into software but was looking for a profession where I could apply my mathematics or even engineering skills.  The University of British Columbia had just announced their Master of Data Science intensive program, so I quit my engineering job at the time and dove in.  Best decision I ever made.
 
-I currently work as a Data Scientist at finn.ai, specializing in natural language processing and deep learning.  We build conversational banking assistants, aimed at helping everyday people manage their finances. Think Google Assistant for your bank.
-
-On the weekends you'll find me drinking fancy beer, riding downhill bikes, hiking into the backcountry on skis or hitting tennis balls around.
+I now work as a Data Scientist for finn.ai, specializing in natural language processing. We build digital assistants which banks can provide to their customers.  Think Siri or Google Assistant for your bank.
