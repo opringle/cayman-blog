@@ -9,6 +9,6 @@ I studied a Masters of Mechanical Engineering at Bath University, UK. During tha
 
 After graduating I moved to Vancouver with my powder skis in one hand and downhill bike in the other. I decided to move into software but was looking for a profession that required applied mathematics.  The University of British Columbia had just announced their Master of Data Science intensive program, so I quit my engineering job at the time and dove in.  Best decision I ever made.
 
-I now work as a Data Scientist for finn.ai, specializing in natural language processing. We build digital assistants which banks can provide to their customers.  Think Siri or Google Assistant for your bank.
+I now work as a Data Scientist for finn.ai, specializing in deep learning for natural language processing. We build digital assistants which banks can provide to their customers.  Think Siri or Google Assistant for your bank.
 
 In the future I would love to apply my skills in the engineering sector.  For example, building deep learning models to ingest sensor data and predict the probability of component failure in cars.  It's going to be exciting to see the ways AI is applied in the mechanical engineering indsutry over the next decade.
