@@ -11,7 +11,7 @@ We will use MXNet to train a neural network with convolutional, recurrent, recur
 
 Our first step will be to download and unpack the public electricity dataset used in the paper.  This dataset comprises measurements of electricity consumption in kWh every hour from 2012 to 2014 for 321 different clients.
 
-```
+```s
 $ wget https://github.com/laiguokun/multivariate-time-series-data/raw/master/electricity/electricity.txt.gz
 $ gunzip electricity.txt.gz
 ```
