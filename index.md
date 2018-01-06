@@ -8,4 +8,4 @@
 layout: home
 ---
 
-Welcome to my blog!  My goal is to educate people of all abilities regarding machine learning, data visualization, deep learning and how I apply these skills in my work as a Data Scientist.
+Welcome. The goal of this blog is to educate people of all abilities regarding machine learning, data visualization, deep learning and how I apply these skills in my work as a Data Scientist.
