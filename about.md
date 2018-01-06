@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Who am I?
+title: about
+tagline: Who am I?
 permalink: /about.html
 ---
 
