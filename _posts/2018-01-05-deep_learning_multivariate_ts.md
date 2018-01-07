@@ -16,7 +16,7 @@ $ wget https://github.com/laiguokun/multivariate-time-series-data/raw/master/ele
 $ gunzip electricity.txt.gz
 ```
 
-Now we need to preprocess the data.  Each feature is the previous q values of each time series(see figure above).  Each label is the value of each of the 321 time series, h steps ahead.
+Now we need to preprocess the data.  Each training record is the previous q values of each time series (see figure above).  Each label is the value of each of the 321 time series, h steps ahead.
 
 ```python
 #modules
@@ -118,7 +118,9 @@ print("\ntraining examples: ", x_train.shape[0],
 
 Now that we have our input data we are ready to start building the network graph.   First lets consider the data iterators and convolutional component.  
 
-The data is zero padded on one side before being passed into the convolutional layer, ensuring the output from each kernel has the same dimensions, regardless of the filter size.  Each filter slides over the input data producing a 1D array of length q.  Relu activation is used as per the paper.  The resulting output from the convolutional component is of shape (batch size, q, total filters).
+All filters have width = number of time series.  The input data is zero padded on one side before being passed into the convolutional layer, ensuring the output from each kernel has the same dimensions, regardless of the filter size.
+
+Each filter slides over the input data producing a 1D array of length q.  Relu activation is used as per the paper.  The resulting output from the convolutional component is of shape (batch size, q, total number of filters).
 
 ```python
 ###############################################
@@ -202,7 +204,7 @@ print("\nconcat output layer shape: ", conv_concat_shape)
 conv_dropout = mx.sym.Dropout(conv_concat, p = dropout)
 ```
 
-The output from the convolutional layer is passed to the recurrent component.  A gated recurrent unit is unrolled through q time steps.  The output of the last time step is taken.
+The output from the convolutional layer is used in two places.  The first is a simple recurrent layer.  A gated recurrent unit is unrolled through q time steps.  The output of the last time step is taken.  If you're not solid on recurrent neural networks, check out [this awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
 
 ```python
 print("\n\t#################################\n\
@@ -235,7 +237,7 @@ print("\nshape after combining RNN cell types: ", rnn_component.infer_shape(seq_
 rnn_dropout = mx.sym.Dropout(rnn_component, p=dropout)
 ```
 
-The output from the convolutional layer is also passed to the recurrent-skip component.  Again a gated recurrent unit is unrolled through q time steps.  Unrolled units a prespecified time interval (seasonal period) apart are connected. In practice recurrent cells do not capture long term dependencies.  We are predicting electricity consumption, so want to connect units 24 hours apart.
+The output from the convolutional layer is also passed to the recurrent-skip component.  Again a gated recurrent unit is unrolled through q time steps.  Unrolled units a prespecified time interval (seasonal period) apart are connected. In practice recurrent cells do not capture long term dependencies.  When predicting electricity consumption the measurements from the previous day could be very useful predictors.  By introducing skip connections 24 hours apart we ensure the model to leverages historical dependencies.
 
 ```python
 print("\n\t#################################\n\
@@ -336,7 +338,7 @@ print("\nar component shape: ", ar_output.infer_shape(
 #do not apply activation function since we want this to be linear
 ```
 
-Now lets combine all the components, define a loss function and create a trainable module from the final symbol.
+Now lets combine all the components, define a loss function and create a trainable module from the final symbol.  I found I achieved good performance with the L2 loss function.
 
 ```python
 print("\n\t#################################\n\
@@ -377,7 +379,7 @@ model = mx.mod.Module(symbol=batmans_NN,
                       label_names=[v.name for v in train_iter.provide_label])
 ```
 
-We are ready to start training, however, before we do so lets create some custom metrics to print during training.  Please see the paper for a definition of the three metrics: Relative square error, relative absolute error and correlation.
+We are ready to start training, however, before we do so lets create some custom metrics.  Please see the paper for a definition of the three metrics: Relative square error, relative absolute error and correlation.
 
 Note: although MXNet has functions for creating custom metrics, I found the metric output of my implementation varied with batch size, so defined them explicity.
 
@@ -401,12 +403,7 @@ def rse(label, pred):
 
     return numerator / denominator
 
-
-_rse = mx.metric.create(rse)
-
 #relative absolute error
-
-
 def rae(label, pred):
     """computes the relative absolute error
     (condensed using standard deviation formula)"""
@@ -421,12 +418,7 @@ def rae(label, pred):
 
     return numerator / denominator
 
-
-_rae = mx.metric.create(rae)
-
 #empirical correlation coefficient
-
-
 def corr(label, pred):
     """computes the empirical correlation coefficient"""
 
@@ -441,15 +433,12 @@ def corr(label, pred):
     #value passed here should be 321 numbers
     return np.mean(numerator / denominator)
 
-
-_corr = mx.metric.create(corr)
-
 #create a composite metric manually
 def metrics(label, pred):
     return ["RSE: ", rse(label, pred), "RAE: ", rae(label, pred), "CORR: ", corr(label, pred)]
 ```
 
-We are done!  Time to train. The hyperparameters previously specified resulted in comparible performance to the results in the paper (*RSE = 0.0967, RAE = 0.0581 and CORR = 0.8941*) with horizon = 3 hours.
+Time to train. The hyperparameters previously specified resulted in comparible performance to the results in the paper (*RSE = 0.0967, RAE = 0.0581 and CORR = 0.8941*) with horizon = 3 hours.  This model took ~10 hours to train on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html).
 
 ```python
 ################
@@ -491,7 +480,7 @@ for epoch in range(num_epoch):
     print('Epoch %d, Validation %s' % (epoch, metrics(label, pred)))
 ```
 
-This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into a training and config files. 
+This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into training and config files. Happy forecasting!
 
 
 
