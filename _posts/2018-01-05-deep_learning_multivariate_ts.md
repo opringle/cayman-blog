@@ -7,7 +7,7 @@ This tutorial shows how to implement LSTNet, a multivariate time series forecast
 
 We will use MXNet to train a neural network with convolutional, recurrent, recurrent-skip and autoregressive components.  The result is a model that predicts the future value for all input variables, given a specific horizon.
 
-![](../images/model_architecture.png)
+![][/images/model_architecture.png)
 
 Our first step will be to download and unpack the public electricity dataset used in the paper.  This dataset comprises measurements of electricity consumption in kWh every hour from 2012 to 2014 for 321 different clients.
 

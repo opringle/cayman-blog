@@ -49,11 +49,11 @@ Padding is used to ensure our sentences are all the same length.  This simply co
 
 The next layer of our network consists of many convolutions of the input.  The filters in this model have width = embedding length.  The filter slides over the input performing elementwise multiplication.
 
-![](../images/convolution.gif)
+![](/images/convolution.gif)
 
 The result is then summed, before applying an activation function to the output.
 
-![](../images/tanh.png)
+![](/images/tanh.png)
 
 ### Pooling and concatenating layer
 
