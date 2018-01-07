@@ -237,7 +237,7 @@ print("\nshape after combining RNN cell types: ", rnn_component.infer_shape(seq_
 rnn_dropout = mx.sym.Dropout(rnn_component, p=dropout)
 ```
 
-The output from the convolutional layer is also passed to the recurrent-skip component.  Again a gated recurrent unit is unrolled through q time steps.  Unrolled units a prespecified time interval (seasonal period) apart are connected. In practice recurrent cells do not capture long term dependencies.  When predicting electricity consumption the measurements from the previous day could be very useful predictors.  By introducing skip connections 24 hours apart we ensure the model to leverages historical dependencies.
+The output from the convolutional layer is also passed to the recurrent-skip component.  Again a gated recurrent unit is unrolled through q time steps.  Unrolled units a prespecified time interval (seasonal period) apart are connected. In practice recurrent cells do not capture long term dependencies.  When predicting electricity consumption the measurements from the previous day could be very useful predictors.  By introducing skip connections 24 hours apart we ensure the model can leverage these historical dependencies.
 
 ```python
 print("\n\t#################################\n\
