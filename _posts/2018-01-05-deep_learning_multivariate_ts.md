@@ -116,7 +116,7 @@ print("\ntraining examples: ", x_train.shape[0],
         "\n\nskip length p: ", seasonal_period / time_interval)
 ```
 
-Now that we have our input data we are ready to start building the network graph.   First lets consider the data iterators and convolutional component.  
+Now that we have our input data we are ready to start building the network graph.   First lets consider the data iterators and convolutional component.  If you're not solid on convolutions check out [this blog post](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/).
 
 All filters have width = number of time series.  The input data is zero padded on one side before being passed into the convolutional layer, ensuring the output from each kernel has the same dimensions, regardless of the filter size.
 
@@ -204,7 +204,7 @@ print("\nconcat output layer shape: ", conv_concat_shape)
 conv_dropout = mx.sym.Dropout(conv_concat, p = dropout)
 ```
 
-The output from the convolutional layer is used in two places.  The first is a simple recurrent layer.  A gated recurrent unit is unrolled through q time steps.  The output of the last time step is taken.  If you're not solid on recurrent neural networks, check out [this awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
+The output from the convolutional layer is used in two places.  The first is a simple recurrent layer.  A gated recurrent unit is unrolled through q time steps.  The output of the last time step is taken.  Here's an [awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) explaining different types of recurrent cells.
 
 ```python
 print("\n\t#################################\n\
