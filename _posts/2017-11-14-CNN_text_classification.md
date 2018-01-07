@@ -17,7 +17,7 @@ Each input is a word, represented as a vector length 10,000.  The vector is zero
 
 The output layer is also a vector of length 10,000.  However, this time the values represent the probability that a word appears in a predefined window around the input word.
 
-![](./images/w2v.png)
+![](/images/w2v.png)
 *Chris McCormick, (2017), word2vec architecture [ONLINE]. Available at: http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png [Accessed 14 November 2017].*
 
 The model consists of a single hidden layer neural network, with linear activation at the neurons. The softmax loss function is used.
