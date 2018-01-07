@@ -438,7 +438,7 @@ def metrics(label, pred):
     return ["RSE: ", rse(label, pred), "RAE: ", rae(label, pred), "CORR: ", corr(label, pred)]
 ```
 
-Time to train. The hyperparameters previously specified resulted in comparible performance to the results in the paper (*RSE = 0.0967, RAE = 0.0581 and CORR = 0.8941*) with horizon = 3 hours.  This model took ~10 hours to train on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html).
+Time to train.
 
 ```python
 ################
@@ -480,7 +480,13 @@ for epoch in range(num_epoch):
     print('Epoch %d, Validation %s' % (epoch, metrics(label, pred)))
 ```
 
-This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into training and config files. Happy forecasting!
+The hyperparameters previously specified resulted in comparible performance to the results in the paper (*RSE = 0.0967, RAE = 0.0581 and CORR = 0.8941*) with horizon = 3 hours.
+
+This model took ~10 hours to train on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html).
+
+This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into training and config files. You can find the trained model symbol and parameters in the results folder.
+
+Happy forecasting!
 
 
 
