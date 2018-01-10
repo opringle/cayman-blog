@@ -5,7 +5,7 @@ title: Deep Learning for NLP - Sentence Classification
 
 In this series of blog posts I will outline two highly effective approaches to classifying sentences.  This first post will cover a less freqently seen approach.... convolutional neural networks.
 
-Although traditionally used for image processing tasks, [CNN's have proven very effective at various NLP tasks](https://arxiv.org/pdf/1702.01923.pdf). Lets dreak down the model, step by step:
+Although traditionally used for image processing tasks, [CNN's have proven very effective at various NLP tasks](https://arxiv.org/pdf/1702.01923.pdf). Lets break down the model, step by step:
 
 ## Word2vec
 
