@@ -9,6 +9,9 @@ We will use MXNet to train a neural network with convolutional, recurrent, recur
 
 ![](/images/model_architecture.png)
 
+> Image from [Modeling Long- and Short-Term Temporal Patterns
+with Deep Neural Networks](https://arxiv.org/abs/1703.07015), Figure 2
+
 Our first step will be to download and unpack the public electricity dataset used in the paper.  This dataset comprises measurements of electricity consumption in kWh every hour from 2012 to 2014 for 321 different clients.
 
 ```s
@@ -111,7 +114,7 @@ y_test = y_ts[training_examples + valid_examples:]
 
 print("\ntraining examples: ", x_train.shape[0],
         "\n\nvalidation examples: ", x_valid.shape[0],
-        "\n\ntest examples: ", x_test.shape[0], 
+        "\n\ntest examples: ", x_test.shape[0],
         "\n\nwindow size: ", q,
         "\n\nskip length p: ", seasonal_period / time_interval)
 ```
@@ -167,7 +170,7 @@ for i, filter_size in enumerate(filter_list):
 
         # zero pad the input array, adding rows at the top only
         # this ensures the number output rows = number input rows after applying kernel
-        padi = mx.sym.pad(data=conv_input, mode="constant", constant_value=0, 
+        padi = mx.sym.pad(data=conv_input, mode="constant", constant_value=0,
                             pad_width=(0, 0, 0, 0, filter_size - 1, 0, 0, 0))                  
         padi_shape = padi.infer_shape(seq_data=input_feature_shape)[1][0]
 
@@ -225,7 +228,7 @@ for i, recurrent_cell in enumerate(rcells):
     cell_outputs.append(output)
 
     print("\n\teach of the ", conv_concat_shape[1], " unrolled hidden cells in the RNN is of shape: ",
-          output.infer_shape(seq_data=input_feature_shape)[1][0], 
+          output.infer_shape(seq_data=input_feature_shape)[1][0],
           "\nNOTE: only the output from the unrolled cell at time t is used...")
 
 
@@ -484,11 +487,12 @@ The hyperparameters previously specified resulted in comparible performance to t
 
 This model took ~10 hours to train on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html).
 
-This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into training and config files. You can find the trained model symbol and parameters in the results folder.
+This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting), separated into training and config files. You can find the trained model symbol and parameters in the results folder.  This model was originally implemented in PyTorch and can be found [here].(https://github.com/laiguokun/LSTNet).
 
 Happy forecasting!
 
+# About the author
 
-
+>[Oliver Pringle](https://www.linkedin.com/in/oliverpringle/) graduated from the UBC Master of Data Science Program in 2017 and is currently a Data Scientist at [Finn.ai](http://finn.ai/) working on AI driven conversational assistants.
 
 
