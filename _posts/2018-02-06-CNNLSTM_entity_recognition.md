@@ -7,7 +7,7 @@ This tutorial shows how to implement a bidirectional LSTM-CNN deep neural networ
 
 We will use MXNet to train a neural network with convolutional and recurrent components.  The result is a model that predicts the entity tag for all tokens in an input sentence.  This implementation includes a custom data iterator, custom evaluation metrics and bucketing to efficiently train on variable input sequence lengths.
 
-The model achieves 90 F1 points on an 80/20 split of the [kaggle named entity recognition dataset](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus).  This exceeds the highest score posted by Stanford CoreNLP.
+The model achieves 90 F1 points on an 80/20 split of the [kaggle named entity recognition dataset](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus).
 
 Note:  There is a lot of code here!  I understand this makes this post hard to read, however, my hope is that this can prove a useful resource to dive in and out of.
 
@@ -533,11 +533,13 @@ Next we embed the tokens in the input data, append the output from the convoluti
     return sm, ('seq_data',), ('seq_label',)
 ```
 
-We are ready to start training, however, before we do so lets create some custom metrics.  Precision, recal and F1 score are the classic metrics used in named entity recognition:
+We are ready to start training, however, before we do so lets create some custom metrics.  Precision, recall and F1 score are the classic metrics used in named entity recognition:
 
 Precision = of the times we predict a token is an entity, what percentage are correct?
+
 Recall = of the tokens that were entities, how many did we correctly predict?
-F1 = harmonic mean of precision and recall
+
+F1 = harmonic mean of precision and recall.
 
 ```python
 #read in dictionary mapping BILOU entity tags to integer indices
