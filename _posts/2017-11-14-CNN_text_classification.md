@@ -28,7 +28,7 @@ Once trained, the weights in the hidden layer can be treated as a numerical repr
 
 The input to most language models is not a single word, but a sequence of words.  This could be a sentence, paragraph or even an entire book. Both recurrent & convolutional neural network layers allow us to ingest sequences of word embeddings.  This is far more effective than averaging the word vectors in each input, since we do not discard any information.
 
-Low level neural network libraries such as MXNet, Tensorflow & Torch have support for variable length inputs & outputs.  This feature is usually refrered to as bucketing.
+Furthermore, low level deep learning frameworks such as MXNet, Tensorflow & Torch have support for variable length inputs & outputs.  This feature is usually referred to as [bucketing](https://mxnet.incubator.apache.org/faq/bucketing.html) and reduces the extent to which we must pad or slice the input data.
 
 ## Convolutional text model
 
