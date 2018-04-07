@@ -37,13 +37,13 @@ The architecture of the deep (really it's wide) learning model is as shown below
 ![blah](/images/CNN.png)
 *Source: Zhang, Y., & Wallace, B. (2015). A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification.*
 
-### Input
+#### Input
 
 Each sentence in our data is represented by a matrix of size w by d, where d is the hidden layer size in our word2vec model and w is our prechosen maximum sentence length.  The first row of the input example above represents the embedding for the word "I" in our corpus.
 
 Padding is used to ensure our sentences are all the same length (unless we decide to use bucketing).  This simply consists of removing words or adding empty words to sentences such that they are all the same length.
 
-### Convolutions
+#### Convolutions
 
 The next layer of our network consists of many convolutions of the input.  The filters in this model have width = embedding length.  The filter slides over the input performing elementwise multiplication.
 
@@ -53,25 +53,30 @@ The result is then summed, before applying an activation function to the output.
 
 ![](/images/tanh.png)
 
-### Pooling and concatenating layer
+#### Pooling and concatenating layer
 
 The maximum value from each filter is taken in the pooling layer.  The values from the 6 filters are concatenated into a single vector.
 
-### Fully connected layer
+#### Fully connected layer
 
 This vector is passed to a fully connected layer with size = number of classes we wish to predict to.  This layer utilizes the softmax activation, to ensure the output is between 0 and 1.  This is useful because we want each neuron to represent the probability that the input sentence belongs to class 0, 1, 2, 3 etc.
 
-## The code
+#### Hyperparameters
 
-[See my github](https://mxnet.incubator.apache.org/tutorials/nlp/cnn.html) for an implementation of this model in MXNet (Amazon's deep learning framework of choice).
+The following hyperparameters are a good starting point when training this model:
 
-## Hyperparameter tuning
-
-My findings from implementing the above architecture were as follows:
-
-- tanh activation function was best on convolutional layers
-- embedding length 600 most effective
-- preprocessing text was critical
+- tanh activation in convolutional layers
+- word embedding size 600
 - 200 filters of sizes 3,4 and 5
-- Adam optimizer
+- adam optimizer with learning rate = 0.001
 - random weight initialization
+
+## Code
+
+[See my github](https://mxnet.incubator.apache.org/tutorials/nlp/cnn.html) for an implementation of this model using Apache MXNet (Amazon's deep learning framework of choice).
+
+
+# About the author
+
+>[Oliver Pringle](https://www.linkedin.com/in/oliverpringle/) graduated from the UBC Master of Data Science Program in 2017 and is currently a Data Scientist at [Finn.ai](http://finn.ai/) working on AI driven conversational assistants.
+
