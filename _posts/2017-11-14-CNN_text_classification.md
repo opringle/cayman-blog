@@ -9,32 +9,30 @@ Although traditionally used for image processing tasks, [CNN's have proven very 
 
 ## Word2vec
 
-Word2vec is a simple and elegant model, which allows us to map each unique word in our data to a vector which represents it's context.  
+Word2vec is an unsupervised learning model, which learns vector representations of words based on the context in which they appear in the input data.  Words which appear in similar context (king, queen) will have similar vectors. The length of these vectors is a hyperparameter.
 
-Let's assume we have 10,000 unique words in our data.  This is our corpus.
+Let's assume we have 10,000 unique words in our data.  This is our corpus. **Each input is a one hot encoded word**, represented as a vector length 10,000.  The vector is zero in all positions, except the position corresponding to the word.
 
-Each input is a word, represented as a vector length 10,000.  The vector is zero in all positions, except the position corresponding to the word.
-
-The output layer is also a vector of length 10,000.  However, this time the values represent the probability that a word appears in a predefined window around the input word.
+The output layer is also a vector of length 10,000.  **Each label is a vector, which is 1 in positions corresponding to words which appeared in a given window of the input word**.  This window size is also a hyperparameter.  
 
 ![](/images/w2v.png)
 *Chris McCormick, (2017), word2vec architecture [ONLINE]. Available at: http://mccormickml.com/assets/word2vec/skip_gram_net_arch.png [Accessed 14 November 2017].*
 
-The model consists of a single hidden layer neural network, with linear activation at the neurons. The softmax loss function is used.
+The model consists of a single hidden layer neural network, with linear activation at the neurons. The softmax activation is used at the output layer to ensure model outputs are between 0 and 1.
 
-Now we simply chose a hidden layer size (300 above) and train the model.  The beauty here is that the weights learned represent the context of a given input word.
+When trained the model will learn, for a given input word, the probability of any word appearing within a certain window.  The intuition is that if two different words have similar words appear around them, they should be considered similar.
 
-For example, we would expect very similar words to appear around the words "king" and "queen".  Therefore, the row of weight matrix corresponding to both words should be similar.
+Once trained, the weights in the hidden layer can be treated as a numerical representation of each word. Now we can simply build a lookup table, where each word in our corpus is represented by a vector (length 300 in this case).  This vector is known as the word embedding.
 
-Now we can simply build a lookup table, where each word in our corpus is represented by a vector (length 300 in this case).  This vector is known as the word embedding.
+## Representing Language
 
-### Limitations
+The input to most language models is not a single word, but a sequence of words.  This could be a sentence, paragraph or even an entire book. Both recurrent & convolutional neural network layers allow us to ingest sequences of word embeddings.  This is far more effective than averaging the word vectors in each input, since we do not discard any information.
 
-The topic of this post is sentence classification.  We need to find a way to represent a sentence numerically for input to our model.  One simple approach is to average the word embeddings in each sentence.  We can then input a sentence to our model as a vector length 300.  But wouldn't it be great if there were a way to retain each words' individual embedding? Enter the CNN.
+Low level neural network libraries such as MXNet, Tensorflow & Torch have support for variable length inputs & outputs.  This feature is usually refrered to as bucketing.
 
 ## Convolutional text model
 
-The architecture of our deep learning model is as shown below:
+The architecture of the deep (really it's wide) learning model is as shown below:
 
 ![blah](/images/CNN.png)
 *Source: Zhang, Y., & Wallace, B. (2015). A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification.*
@@ -43,7 +41,7 @@ The architecture of our deep learning model is as shown below:
 
 Each sentence in our data is represented by a matrix of size w by d, where d is the hidden layer size in our word2vec model and w is our prechosen maximum sentence length.  The first row of the input example above represents the embedding for the word "I" in our corpus.
 
-Padding is used to ensure our sentences are all the same length.  This simply consists of removing words or adding empty words to sentences such that they are all the same length.
+Padding is used to ensure our sentences are all the same length (unless we decide to use bucketing).  This simply consists of removing words or adding empty words to sentences such that they are all the same length.
 
 ### Convolutions
 
@@ -65,7 +63,7 @@ This vector is passed to a fully connected layer with size = number of classes w
 
 ## The code
 
-[This code](https://mxnet.incubator.apache.org/tutorials/nlp/cnn.html) shows how to implement this model in MXNet (Amazon's deep learning framework of choice).
+[See my github](https://mxnet.incubator.apache.org/tutorials/nlp/cnn.html) for an implementation of this model in MXNet (Amazon's deep learning framework of choice).
 
 ## Hyperparameter tuning
 
