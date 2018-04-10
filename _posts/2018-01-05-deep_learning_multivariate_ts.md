@@ -74,15 +74,15 @@ def build_iters(data_dir, max_records, q, horizon, splits, batch_size):
     return train_iter, val_iter, test_iter
 ```
 
-The following function builds the network symbol. This is graph, which represents the architecture of our neural network. If you're not solid on convolutional & recurrent network layers, check out [this blog post on CNNs](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/) & [awesome blog post on LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
+Time to build the network symbol. This is a graph, which represents the architecture of our neural network. If you're not solid on convolutional & recurrent layers, check out [this blog post on CNNs](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/) & [awesome blog post on LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
 
-First a convolutional layer is used to extract features from the input data. Here, kernels with shape = (number of time series, filter_size) pass over the input. The input is dynamically padded, depending on the height of the kernel. This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which of shape (batch size, q, total number of filters).
+First a convolutional layer is used to extract features from the input data. Here, kernels with shape = (number of time series, filter_size) pass over the input. The input is dynamically padded, depending on the height of the kernel. This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which of shape = (batch size, q, total number of filters).
 
-These convolutional features are used in two components of the network. The first is a simple recurrent layer. A gated recurrent unit is unrolled through q time steps. Each unrolled cell receives input data of shape (batch size, total number of filters), along with the output from the previous cell. The output of the last unrolled cell is used later in the network. Here's an [awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) explaining different types of recurrent cells.
+These convolutional features are used in two components of the network. The first is a simple recurrent layer. A gated recurrent unit is unrolled through q time steps. Each unrolled cell receives input data of shape = (batch size, total number of filters), along with the output from the previous cell. The output of the last unrolled cell is used later in the network.
 
-The output from the convolutional layer is also passed to the recurrent-skip component. Again a gated recurrent unit is unrolled through q time steps. The output from unrolled units a prespecified time interval (seasonal period) apart are used later in the network. In practice recurrent cells do not capture long term dependencies. When predicting electricity consumption the measurements from the previous day could be very useful predictors. By introducing skip connections 24 hours apart we ensure the model can leverage these historical dependencies.
+The output from the convolutional layer is also passed to the recurrent-skip component. Again a gated recurrent unit is unrolled through q time steps. The outputs from unrolled units a prespecified time interval (seasonal period) apart are used later in the network. In practice recurrent cells do not capture long term dependencies. When predicting electricity consumption the measurements from the previous day could be very useful predictors. By introducing skip connections 24 hours apart we ensure the model can leverage these historical dependencies.
 
-The final component is a simple autoregressive layer. This splits the input data into 321 individual time series and passes each to a fully connected layer of size 1, with no activation function. The effect of this is to predict the next value as a linear combination of the previous q values.
+The final component is a simple autoregressive layer. This splits the input data into its 321 individual time series and passes each to a fully connected layer of size 1, with no activation function. The effect of this is to predict the next value as a linear combination of the previous q values.
 
 The sum of the output from the autogressive, recurrent and recurrent-skip components is used to predict the future value for every time series. The L2 loss function is used.
 
@@ -158,7 +158,7 @@ def sym_gen(train_iter, q, filter_list, num_filter, dropout, rcells, skiprcells,
     return loss_grad, [v.name for v in train_iter.provide_data], [v.name for v in train_iter.provide_label]
 ```
 
-We are ready to start training, however, before we do so lets create some custom metrics to evaluate model performance. Please see the paper for a definition of the three metrics: Relative square error, relative absolute error and correlation.
+We are ready to start training, however, before we do so lets create some custom metrics to evaluate model performance. Please see the paper for a definition of the three metrics: relative square error, relative absolute error and correlation.
 
 Note: although MXNet has support for creating custom metrics, I found the metric output of my implementation varied with batch size, so defined them explicity.
 
@@ -239,7 +239,7 @@ The following hyperparameters exceeded the published model performance on the va
 - Recurrent & recurrent-skip layer hidden state sizes: 100
 - Batch size = 128
 - q = 24 * 7 (1 week)
-- p = 24 (1 day)
+- Skip distance = 24 (1 day)
 - Dropout = 0.2
 - Optimizer: Adam
 - Learning rate: 0.001
