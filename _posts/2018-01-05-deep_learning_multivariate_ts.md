@@ -183,15 +183,6 @@ def corr(label, pred):
     denominator = np.std(label, axis=0) * np.std(pred, axis=0)
     return np.mean(numerator / denominator)
 
-def get_custom_metrics():
-    """
-    :return: mxnet metric object
-    """
-    _rse = mx.metric.create(rse)
-    _rae = mx.metric.create(rae)
-    _corr = mx.metric.create(corr)
-    return mx.metric.create([_rae, _rse, _corr])
-
 def evaluate(pred, label):
     return {"RAE":rae(label, pred), "RSE":rse(label,pred),"CORR": corr(label,pred)}
 ```
