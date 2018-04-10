@@ -74,9 +74,9 @@ def build_iters(data_dir, max_records, q, horizon, splits, batch_size):
     return train_iter, val_iter, test_iter
 ```
 
-Time to build the network symbol. This is a graph, which represents the architecture of our neural network. If you're not solid on convolutional & recurrent layers, check out [this blog post on CNNs](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/) & [awesome blog post on LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
+Time to build the network symbol. This is a graph, which represents the architecture of our neural network. If you're not solid on convolutional & recurrent layers, check out [this blog post on CNNs](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/) & [this awesome blog post on LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
 
-First a convolutional layer is used to extract features from the input data. Here, kernels with shape = (number of time series, filter_size) pass over the input. The input is dynamically padded, depending on the height of the kernel. This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which of shape = (batch size, q, total number of filters).
+First a convolutional layer is used to extract features from the input data. Here, kernels with shape = (number of time series, filter_size) pass over the input. The input is dynamically padded, depending on the height of the kernel. This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which has shape = (batch size, q, total number of filters).
 
 These convolutional features are used in two components of the network. The first is a simple recurrent layer. A gated recurrent unit is unrolled through q time steps. Each unrolled cell receives input data of shape = (batch size, total number of filters), along with the output from the previous cell. The output of the last unrolled cell is used later in the network.
 
