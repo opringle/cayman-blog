@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Learning for State of the Art Multivariate Time Series Forecasting using Apache MXNet
+title: Deep Learning for Multivariate Time Series Forecasting using Apache MXNet
 ---
 
 This tutorial shows how to implement LSTNet, a multivariate time series forecasting model submitted by Wei-Cheng Chang, Yiming Yang, Hanxiao Liu and Guokun Lai in their paper [Modeling Long- and Short-Term Temporal Patterns](https://arxiv.org/pdf/1703.07015.pdf) in March 2017. This model achieved state of the art performance on 3 of the 4 public datasets it was evaluated on.
