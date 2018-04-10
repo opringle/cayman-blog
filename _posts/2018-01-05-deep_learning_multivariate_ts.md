@@ -3,16 +3,16 @@ layout: post
 title: Deep Learning for State of the Art Multivariate Time Series Forecasting using Apache MXNet
 ---
 
-This tutorial shows how to implement LSTNet, a multivariate time series forecasting model submitted by Wei-Cheng Chang, Yiming Yang, Hanxiao Liu and Guokun Lai in their paper [Modeling Long- and Short-Term Temporal Patterns](https://arxiv.org/pdf/1703.07015.pdf) in March 2017.  This model achieved state of the art performance on 3 of the 4 public datasets it was evaluated on.
+This tutorial shows how to implement LSTNet, a multivariate time series forecasting model submitted by Wei-Cheng Chang, Yiming Yang, Hanxiao Liu and Guokun Lai in their paper [Modeling Long- and Short-Term Temporal Patterns](https://arxiv.org/pdf/1703.07015.pdf) in March 2017. This model achieved state of the art performance on 3 of the 4 public datasets it was evaluated on.
 
-We will use MXNet to train a neural network with convolutional, recurrent, recurrent-skip and autoregressive components.  The result is a model that predicts the future value for all input variables, given a specific horizon.
+We will use MXNet to train a neural network with convolutional, recurrent, recurrent-skip and autoregressive components. The result is a model that predicts the future value for all input variables, given a specific horizon.
 
 ![](/images/model_architecture.png)
 
 > Image from [Modeling Long- and Short-Term Temporal Patterns
 with Deep Neural Networks](https://arxiv.org/abs/1703.07015), Figure 2
 
-Our first step will be to clone the repository and download the public electricity dataset used in the paper.  This dataset comprises measurements of electricity consumption in kWh every hour from 2012 to 2014 for 321 different clients.
+Our first step will be to clone the repository and download the public electricity dataset used in the paper. This dataset comprises measurements of electricity consumption in kWh every hour from 2012 to 2014 for 321 different clients.
 
 ```s
 $ git clone git@github.com:opringle/multivariate_time_series_forecasting.git && cd multivariate_time_series_forecasting
@@ -21,7 +21,7 @@ $ wget https://github.com/laiguokun/multivariate-time-series-data/raw/master/ele
 $ gunzip electricity.txt.gz
 ```
 
-Before constructing the network, we need to build data iterators.  These will feed batches of features and targets to the module during training. In this network, the target for each example is the value of all  time series h steps ahead of the current time.  The features for each example are the q previous values, for all time series. In other words, we want to build a model which can predict the electricity consumption of any house h measurements into the future, given the past q electricity consumption readings for all houses.
+Before constructing the network, we need to build data iterators. These will feed batches of features and targets to the module during training. In this network, the target for each example is the value of all time series h steps ahead of the current time. The features for each example are the q previous values, for all time series. In other words, we want to build a model which can predict the electricity consumption of any house h measurements into the future, given the past q electricity consumption readings for all houses.
 
 The following function reads in the electricity time series data, generates examples based on q and h, splits these into training, validation and test sets and returns mx.NDArrayIters to feed the network. 
 
@@ -76,13 +76,13 @@ def build_iters(data_dir, max_records, q, horizon, splits, batch_size):
 
 The following function builds the network symbol. This is graph, which represents the architecture of our neural network. If you're not solid on convolutional & recurrent network layers, check out [this blog post on CNNs](http://colah.github.io/posts/2014-07-Conv-Nets-Modular/) & [awesome blog post on LSTMs](http://colah.github.io/posts/2015-08-Understanding-LSTMs/).
 
-First a convolutional layer is used to extract features from the input data.  Here, kernels with shape = (number of time series, filter_size) pass over the input.  The input is dynamically padded, depending on the height of  the kernel.  This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which of shape (batch size, q, total number of filters).
+First a convolutional layer is used to extract features from the input data. Here, kernels with shape = (number of time series, filter_size) pass over the input. The input is dynamically padded, depending on the height of the kernel. This ensures, as each filter slides over the input data, it produces a 1D array of length q. Dropout is applied to the resulting layer, which of shape (batch size, q, total number of filters).
 
-These convolutional features are used in two components of the network. The first is a simple recurrent layer.  A gated recurrent unit is unrolled through q time steps. Each unrolled cell receives input data of shape (batch size, total number of filters), along with the output from the previous cell. The output of the last unrolled cell is used later in the network.  Here's an [awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) explaining different types of recurrent cells.
+These convolutional features are used in two components of the network. The first is a simple recurrent layer. A gated recurrent unit is unrolled through q time steps. Each unrolled cell receives input data of shape (batch size, total number of filters), along with the output from the previous cell. The output of the last unrolled cell is used later in the network. Here's an [awesome blog post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) explaining different types of recurrent cells.
 
-The output from the convolutional layer is also passed to the recurrent-skip component.  Again a gated recurrent unit is unrolled through q time steps.  The output from unrolled units a prespecified time interval (seasonal period) apart are used later in the network. In practice recurrent cells do not capture long term dependencies.  When predicting electricity consumption the measurements from the previous day could be very useful predictors.  By introducing skip connections 24 hours apart we ensure the model can leverage these historical dependencies.
+The output from the convolutional layer is also passed to the recurrent-skip component. Again a gated recurrent unit is unrolled through q time steps. The output from unrolled units a prespecified time interval (seasonal period) apart are used later in the network. In practice recurrent cells do not capture long term dependencies. When predicting electricity consumption the measurements from the previous day could be very useful predictors. By introducing skip connections 24 hours apart we ensure the model can leverage these historical dependencies.
 
-The final component is a simple autoregressive layer.  This splits the input data into 321 individual time series and passes each to a fully connected layer of size 1, with no activation function.  The effect of this is to predict the next value as a linear combination of the previous q values.
+The final component is a simple autoregressive layer. This splits the input data into 321 individual time series and passes each to a fully connected layer of size 1, with no activation function. The effect of this is to predict the next value as a linear combination of the previous q values.
 
 The sum of the output from the autogressive, recurrent and recurrent-skip components is used to predict the future value for every time series. The L2 loss function is used.
 
@@ -247,7 +247,7 @@ The following hyperparameters exceeded the published model performance on the va
 
 This model took ~2 hours to train on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html). Using a 60/20/20 train, validation, test split respectively.
 
-This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting). You can find the trained model symbol and parameters in the models folder.  This model was originally implemented in PyTorch and can be found [here](https://github.com/laiguokun/LSTNet).
+This code can be found in [my github repo](https://github.com/opringle/multivariate_time_series_forecasting). You can find the trained model symbol and parameters in the models folder. This model was originally implemented in PyTorch and can be found [here](https://github.com/laiguokun/LSTNet).
 
 Happy forecasting!
 
