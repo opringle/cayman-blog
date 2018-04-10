@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22f78177-1140-4a8a-8866-f7cb92476f51" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_posts/2018-01-05-deep_learning_multivariate_ts.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2018-01-05-deep_learning_multivariate_ts.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +17,8 @@
         <entry file="file://$PROJECT_DIR$/_posts/2018-01-05-deep_learning_multivariate_ts.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="696">
-                <caret line="249" column="296" lean-forward="true" selection-start-line="249" selection-start-column="296" selection-end-line="249" selection-end-column="296" />
+              <first_editor relative-caret-position="30">
+                <caret line="2" column="97" lean-forward="true" selection-start-line="2" selection-start-column="97" selection-end-line="2" selection-end-column="97" />
               </first_editor>
               <second_editor />
             </state>
@@ -108,7 +107,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32923076" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32923076" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -158,8 +157,8 @@
     <entry file="file://$PROJECT_DIR$/_posts/2018-01-05-deep_learning_multivariate_ts.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="696">
-            <caret line="249" column="296" lean-forward="true" selection-start-line="249" selection-start-column="296" selection-end-line="249" selection-end-column="296" />
+          <first_editor relative-caret-position="30">
+            <caret line="2" column="97" lean-forward="true" selection-start-line="2" selection-start-column="97" selection-end-line="2" selection-end-column="97" />
           </first_editor>
           <second_editor />
         </state>
