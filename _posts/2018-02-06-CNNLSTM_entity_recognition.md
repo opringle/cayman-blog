@@ -20,9 +20,7 @@ These models are very useful when combined with [sentence classification models]
 
 We will use MXNet to train a neural network with convolutional and recurrent components. The result is a model that predicts the entity tag for all tokens in an input sentence. This implementation includes a custom data iterator, custom evaluation metrics and bucketing to efficiently train on variable input sequence lengths.
 
-The model achieves 90 F1 points on an 80/20 split of the [kaggle named entity recognition dataset](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus), which is really quite good. More on metrics later.
-
-Note: There is a lot of code here! I understand that makes this post hard to read, however, my hope is that this can prove a useful resource to dive in and out of.
+The model achieves 86.5 F1 points on an 80/20 split of the [kaggle named entity recognition dataset](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus), which is really quite good. More on metrics later.
 
 ### Input Data
 
@@ -35,10 +33,11 @@ Above, every token is tagged with *B,I,L,O or U*, followed by the entity label. 
 The training data for this post is in the form of a pandas dataframe. [The original dataset is from kaggle.](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/downloads/ner_dataset.csv) The file `preprocess.py` from [my NER github repo](https://github.com/opringle/named_entity_recognition) will produce the following pandas dataframe:
 
 ![](/images/data.png)
+> Note that there are annotation errors in the input data! Entity annotation has to be done by a human :(
 
 ### Model
 
-Before we can build the model, we need to construct an mxnet iterator, to feed mini-batches of data through our neural network. Since our training data is sequences of varying length, we will define a [bucketing iterator](https://mxnet.incubator.apache.org/faq/bucketing.html). This will pad or slice training examples into a predefined list of buckets. MXNet will then create a network graph for each bucket and share parameters between graphs.
+Before we can build the model, we need to construct an mxnet iterator to feed mini-batches of data through our neural network. Since our training data is sequences of varying length, we will define a [bucketing iterator](https://mxnet.incubator.apache.org/faq/bucketing.html). This will pad or slice training examples into a predefined list of buckets. MXNet will then create a network graph for each bucket and share parameters between graphs.
 
 The code below defines the BucketNerIter class, which ingests a list of list of indexed tokens, list of list of list of token character indices and a list of list of BILOU tagged entity labels. Input sentences are grouped into batches depending on their length. Each batch has a bucket key. Sentences in the batch are padded/sliced to the bucket size.
 
@@ -203,6 +202,9 @@ Each token in the input sequence has three types of features:
     > Images from [Spacy Linguistic Features page](https://spacy.io/usage/linguistic-features)
     
 3. Finally, convolutional filters pass over the characters in the token. CNN's are often used for the task of feature generation in deep learning. Here, the input word is dynamically padded, depending on its length. Each character is assigned a random embedding (which is learned). Each kernel has shape = (w, embedding_vector_size). Max pooling is applied to the 1D kernel output from each filter.
+
+    ![](/images/cnn_char.png)
+    > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figures 1 & 2
 
 The word embeddings, word features and convolutional character features are concatenated (see figure below). They then pass through the bidirectional lstm component. Here, an LSTM is unrolled forwards by the length of the input sentence. A second layer is unrolled backwards by the length of the input sentence. This backward layer receives the output from an unrolled cell in the forward layer, as well as the original input.
 
