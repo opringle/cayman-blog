@@ -9,7 +9,7 @@ This tutorial shows how to implement a bidirectional LSTM-CNN deep neural networ
 
 Named entity recogniton (NER) refers to the task of classifying entities in text. It's best explained by example:
 
-![](../images/spacy.png)
+![](/images/spacy.png)
 > Images from [Spacy Named Entity Visualizer](https://explosion.ai/demos/)
 
 In most applications, the input to the model would be tokenized text. The model output is designed to represent the predicted probability each token belongs a specific entity class.
@@ -34,7 +34,7 @@ Above, every token is tagged with *B,I,L,O or U*, followed by the entity label. 
 
 The training data for this post is in the form of a pandas dataframe. [The original dataset is from kaggle.](https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus/downloads/ner_dataset.csv) The file `preprocess.py` from [my NER github repo](https://github.com/opringle/named_entity_recognition) will produce the following pandas dataframe:
 
-![](../images/data.png)
+![](/images/data.png)
 
 ### Model
 
@@ -199,19 +199,19 @@ Each token in the input sequence has three types of features:
 1. Tokens are assigned a *word embedding* feature vector. This could be randomly intialized or some pretrained embedding ([word2vec](https://www.tensorflow.org/tutorials/word2vec), [fastText](https://github.com/facebookresearch/fastText)). 
 2. Additional word features are generated for each token. These could be categorical features such as whether that word has a capital letter, or some dependancy tag generated from a pretrained machine learning model. The figure below, shows some linguistic features the spacy library can generate. The columns are the features and each row is a token:
 
-    ![](../images/spacy2.png)
+    ![](/images/spacy2.png)
     > Images from [Spacy Linguistic Features page](https://spacy.io/usage/linguistic-features)
     
 3. Finally, convolutional filters pass over the characters in the token. CNN's are often used for the task of feature generation in deep learning. Here, the input word is dynamically padded, depending on its length. Each character is assigned a random embedding (which is learned). Each kernel has shape = (w, embedding_vector_size). Max pooling is applied to the 1D kernel output from each filter.
 
 The word embeddings, word features and convolutional character features are concatenated (see figure below). They then pass through the bidirectional lstm component. Here, an LSTM is unrolled forwards by the length of the input sentence. A second layer is unrolled backwards by the length of the input sentence. This backward layer receives the output from an unrolled cell in the forward layer, as well as the original input.
 
-![](../images/drnn_architecure.png)
+![](/images/drnn_architecure.png)
 > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figures 1 & 2
 
  Both forward and backward outputs are combined in the output layer. This layer has number of units = number of possible BILOU entity tags. The log-softmax transformation is used to squeeze the output into the range 0 to 1. The model output can then be interpretted as the predicted probability the input word belows to all possible tags.
 
-![](../images/output_layer.png)
+![](/images/output_layer.png)
 > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figure 3
 
 The following code constructs a function, which will build a similarm network symbol depending on the bucket size of the batch passing through it. Note that this network only encorporates features 1 & 3. My symbol also combines the forward and backward outputs before passing them through the cross entropy loss.
