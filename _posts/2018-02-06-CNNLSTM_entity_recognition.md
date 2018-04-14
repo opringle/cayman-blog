@@ -206,17 +206,17 @@ Each token in the input sequence has three types of features:
     ![](/images/cnn_char.png)
     > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figures 1 & 2
 
-The word embeddings, word features and convolutional character features are concatenated (see figure below). They then pass through the bidirectional lstm component. Here, an LSTM is unrolled forwards by the length of the input sentence. A second layer is unrolled backwards by the length of the input sentence. This backward layer receives the output from an unrolled cell in the forward layer, as well as the original input.
+The word embeddings, word features and convolutional character features are concatenated (see figure below). They then pass through the bidirectional recurrent component. Here, an LSTM is unrolled forwards by the length of the input sentence. A second layer is unrolled backwards by the length of the input sentence. This backward layer receives the output from its corresponding unrolled cell in the forward layer, as well as the word feature vector.
 
 ![](/images/drnn_architecure.png)
 > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figures 1 & 2
 
- Both forward and backward outputs are combined in the output layer. This layer has number of units = number of possible BILOU entity tags. The log-softmax transformation is used to squeeze the output into the range 0 to 1. The model output can then be interpretted as the predicted probability the input word belows to all possible tags.
+ Both forward and backward outputs are combined in the output layer. This layer has number of units = number of possible BILOU entity tags. The log-softmax transformation is used to squeeze the output into the range 0 to 1. The model output can then be interpretted as the predicted probability the input word belows to all possible tags.  The output layer for each token is as follows:
 
 ![](/images/output_layer.png)
 > Images from [Named Entity Recognition with Bidirectional LSTM-CNNs](https://www.aclweb.org/anthology/Q16-1026), Figure 3
 
-The following code constructs a function, which will build a similarm network symbol depending on the bucket size of the batch passing through it. Note that this network only encorporates features 1 & 3. My symbol also combines the forward and backward outputs before passing them through the cross entropy loss.
+The following code constructs a function, which will build a similar network symbol depending on the bucket size of the batch passing through it. Note that this network only encorporates features 1 & 3. My symbol also combines the forward and backward outputs before passing them through a cross entropy loss layer.
 
 ```python
 def sym_gen(seq_len):
@@ -304,7 +304,7 @@ def train(train_iter, val_iter):
 
 You can find the full training script here: [`ner.py`](https://github.com/opringle/named_entity_recognition/blob/master/src/ner.py). This model trained to an F1 score of 86.54 on an [Nvidia Tesla K80 GPU](http://www.nvidia.ca/object/tesla-k80.html) in 80 epochs. The hyperparameters were set to the default script values.
 
-The code can be found in [my github repo](https://github.com/opringle/named_entity_recognition), separated into iterators, metrics and the training script. You can find the trained model symbol and parameters in the results folder.
+The code can be found in [my github repo](https://github.com/opringle/named_entity_recognition), separated into iterators, metrics and the training script.
 
 ### Extensions
 
