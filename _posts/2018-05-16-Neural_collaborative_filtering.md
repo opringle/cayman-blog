@@ -56,7 +56,7 @@ a vector of latent features to represent a user or an item.
 Thereafter a user’s interaction on an item is modelled as the
 inner product of their latent vectors.
 
-![](../images/mf.svg)
+![](/images/mf.svg)
 > Images from [Factorization Machines A Theoretical Introduction](http://jxieeducation.com/2016-06-26/Factorization-Machines-A-Theoretical-Introduction/)
 
 The figure above shows a simple matrix factorization. The ratings matrix  shows the rating each user assigned to each item. Each user (A, B, C, D) is assigned a latent feature vector of size 2. Each item (W, X, Y, Z) is also assigned a latent feature vector of size 2. These vectors are learned, such that their inner product approximates the rating matrix.
@@ -75,7 +75,7 @@ Notice that the raw data is in the form of implicit feedback (reviews from 1-5).
 
 For this reason we will convert the movie reviews into implicit form. We want to build a model that is useful with implicit data. Any movie that has been reviewed gets a 1, any movie that wasn't reviewed gets a 0. 
 
-![](../images/raw_data.png)
+![](/images/raw_data.png)
 
 We have 6040 users and 3706 movies. This is a total of 22,384,240 possible interactions! 1,000,000 of these combinations will be 1, where the movie was reviewed. The remaining 21,384,240 will be 0, where the users did not review the movies. This is where scalability becomes a problem, since the number of training examples explodes with more users or items.
 
@@ -91,7 +91,7 @@ The general architecture is shown below. Each user & item is assigned a latent v
 
 Each training record consists of a user and item. We simply retrieve the user latent vector, item latent vector and concatenate them. This concatenated vector is passed through three fully connected layers, before being mapped to a single neuron, with an activation function ensuring the model outputs values between 0 and 1. The loss for that record is computed by comparing the model output to the true label (0 or 1).
 
-![](../images/ncf.png)
+![](/images/ncf.png)
 > Image from [neural collaborative filtering](https://www.comp.nus.edu.sg/~xiangnan/papers/ncf.pdf) figure 2
 
 ### Using the Model
