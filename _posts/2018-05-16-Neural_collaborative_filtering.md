@@ -83,11 +83,9 @@ We do not want to train a model on 22 million input examples. It will take too l
 
 For the test set, we take the latest interaction for each user. We then sample  99 negatives for each user. This will allow us to compute meaningful metrics when evaluating our model (more later).
 
-The code below defines a custom MXNet iterator class, which stores the data in the scipy sparse matrix, producing arrays of training data when the batch is required.
-
 ### Model Architecture
 
-The general architecture is shown below. Each user & item is assigned a latent vector. This is essentially a list of numbers that numerically represents that user or item. The more similar two user vectors, the more similar those users are. The same for items. 
+The general architecture is shown below. Each user & item is assigned a latent vector. This is essentially a list of numbers, learned during training, that numerically represents that user or item. The more similar two user vectors, the more similar those users are. The same for items. 
 
 Each training record consists of a user and item. We simply retrieve the user latent vector, item latent vector and concatenate them. This concatenated vector is passed through three fully connected layers, before being mapped to a single neuron, with an activation function ensuring the model outputs values between 0 and 1. The loss for that record is computed by comparing the model output to the true label (0 or 1).
 
