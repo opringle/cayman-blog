@@ -69,7 +69,7 @@ Before I explain the architecture, lets talk more about our input data which wil
 
 ### Input Data
 
-The raw training data for this model consists of 1,000,000 movie ratings, between 1 & 5. Each record describes the rating a user assigned to an item. There are 943 users and 1682  users in this dataset.
+We will use the [MovieLens dataset](https://grouplens.org/datasets/movielens/1m/) for training this model. This consists of 1,000,000 movie ratings, between 1 & 5. Each record describes the rating a user assigned to an item.
 
 Notice that the raw data is in the form of implicit feedback (reviews from 1-5). This  means a user has actually inferred their preference on an item. In real world scenarios, it is far easier to collect vast quantities of implicit feedback. Clicking on products, buying items, watching movies you get the idea. 
 
