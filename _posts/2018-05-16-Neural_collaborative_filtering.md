@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deep Learning for Recommender Systems: Neural Collaborative Filtering
+title: Deep Learning for Recommender Systems
 ---
 
 A recommender system is a machine learning model, which predicts the preference a user would assign to an item.  These systems are used to understand what facebook articles you'd like to read, which youtube videos you will watch, what amazon items you'll most likely buy and so on.
