@@ -1,0 +1,31 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>{{ site.author }}</title>
+ <link href="https://opringle.github.io/feed.xml" rel="self"/>
+ <link href="https://opringle.github.io/`" rel="alternate"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>https://opringle.github.io/</id>
+ <author>
+   <name>{{ site.author }}</name>
+ </author>
+ <rights>Copyright 2018 {{ site.author }}. All Rights Reserved</rights>
+
+ {% for post in site.posts limit:20 %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="{{ fullurl }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>{{ post.url | relative_url }}</id>
+   <content type="html">
+        <![CDATA[
+
+        <span>{{ post.excerpt | markdownify | truncatewords: 30 }}</span>
+     ]]>
+   </content>
+ </entry>
+ {% endfor %}
+</feed>
